@@ -21,6 +21,13 @@
                   </label>
                   <span id="allProjectsHelp" class="help-block">Show PRs from repos across all projects.</span>
                 </div>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" id="inputHideDraftPRs" [(ngModel)]="hideDraftPRs" (ngModelChange)="onHideDraftPRsChanged($event)" name="hideDraftPRs" aria-describedby="hideDraftPRsHelp">
+                    Hide Draft PRs
+                  </label>
+                  <span id="hideDraftPRsHelp" class="help-block">Hide pull requests marked as draft.</span>
+                </div>
               </div>
             </li>
           </form>

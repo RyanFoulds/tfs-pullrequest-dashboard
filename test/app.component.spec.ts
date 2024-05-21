@@ -64,6 +64,7 @@ describe("AppComponent", () => {
         spyOn(settingsMock, "getDateFormat");
         spyOn(settingsMock, "getRepoFilter");
         spyOn(settingsMock, "getShowAllProjects");
+        spyOn(settingsMock, "getHideDraftPRs");
 
         zoneMock = {
             run: (action: () => void) => action(),
@@ -88,6 +89,7 @@ describe("AppComponent", () => {
         expect(settingsMock.getDateFormat).toHaveBeenCalledTimes(0);
         expect(settingsMock.getRepoFilter).toHaveBeenCalledTimes(0);
         expect(settingsMock.getShowAllProjects).toHaveBeenCalledTimes(0);
+        expect(settingsMock.getHideDraftPRs).toHaveBeenCalledTimes(0);
     });
 
 });

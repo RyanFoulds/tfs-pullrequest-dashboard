@@ -101,6 +101,8 @@ export abstract class AppSettingsService {
     public static dateFormatKey = "dateFormat";
     // settings key for showing PRs across all projects instead of just the current
     public static allProjectsKey = "allProjects";
+    // settings key for hiding draft PRs
+    public static hideDraftPRsKey = "hideDraftPRs";
 
     public static defaultDateFormat = "dd/MM/yyyy HH:mm";
 
@@ -146,6 +148,18 @@ export abstract class AppSettingsService {
 
     public async setShowAllProjects(value: boolean): Promise<void> {
         await this.setValue(AppSettingsService.allProjectsKey, value.toString());
+    }
+
+    public async getHideDraftPRs(): Promise<boolean> {
+        const savedHideDraftPRs = await this.getValue(AppSettingsService.hideDraftPRsKey);
+        if (savedHideDraftPRs === "true") {
+            return true;
+        }
+        return false;
+    }
+
+    public async setHideDraftPRs(value: boolean): Promise<void> {
+        await this.setValue(AppSettingsService.hideDraftPRsKey, value.toString());
     }
 
     public getLayout(): Layout {

@@ -51,6 +51,7 @@ At the top right of the dashboard plugin is a button which will drop down user-s
 
 * Date Format - specifies the format to display PR creation date timestamp.  Default is "dd/MM/yyyy HH:mm".
 * All Projects - show pull requests from repositories across all projects.
+* Hide Draft PRs - hide pull requests marked as draft.
 
 ![Settings](assets/screenshots/settings.png)
 

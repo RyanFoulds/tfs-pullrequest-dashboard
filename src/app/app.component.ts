@@ -48,6 +48,8 @@ export class AppComponent implements OnInit {
 
     public allProjects: boolean = false;
 
+    public hideDraftPRs: boolean = false;
+
     public loading: boolean = false;
 
     public layout: Layout;
@@ -75,11 +77,13 @@ export class AppComponent implements OnInit {
             const filterPromise = this.settings.getRepoFilter();
             const formatPromise = this.settings.getDateFormat();
             const allProjectsPromise = this.settings.getShowAllProjects();
+            const hideDraftPRsPromise = this.settings.getHideDraftPRs();
             const currentUserPromise = this.tfsService.getCurrentUser();
 
             this.filteredRepoIds = await filterPromise;
             this.dateFormat = await formatPromise;
             this.allProjects = await allProjectsPromise;
+            this.hideDraftPRs = await hideDraftPRsPromise;
             this.currentUser = await currentUserPromise;
             await this.reloadPullRequests();
         } finally {
@@ -106,6 +110,7 @@ export class AppComponent implements OnInit {
             this.pullRequests = [];
 
             this.tfsService.getPullRequests(this.allProjects)
+                .filter((pr) => !(this.hideDraftPRs && pr.isDraft))
                 .map((pr) => new PullRequestViewModel(pr, repoById[pr.repository.id], this.currentUser))
                 .bufferTime(500)
                 .subscribe((prs) => this.zone.run(() => this.pullRequests.push(...prs)));
@@ -162,6 +167,16 @@ export class AppComponent implements OnInit {
 
         this.allProjects = allProjects;
         this.settings.setShowAllProjects(allProjects);
+        this.reloadPullRequests();
+    }
+
+    public onHideDraftPRsChanged(hideDraftPRs: boolean) {
+        if (this.loading) {
+            return;
+        }
+
+        this.hideDraftPRs = hideDraftPRs;
+        this.settings.setHideDraftPRs(hideDraftPRs);
         this.reloadPullRequests();
     }
 
